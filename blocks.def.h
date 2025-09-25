@@ -1,11 +1,12 @@
-//Modify this file to change what commands output to your statusbar, and recompile using the make command.
 static const Block blocks[] = {
-	/*Icon*/	/*Command*/		/*Update Interval*/	/*Update Signal*/
-	{"Mem:", "free -h | awk '/^Mem/ { print $3\"/\"$2 }' | sed s/i//g",	30,		0},
-
-	{"", "date '+%b %d (%a) %I:%M%p'",					5,		0},
+    {"",   "amixer get Master | awk -F'[][]' 'END{if($4==\"off\"){print \"MUTE\"}else{print \"VOL \"$2}}'", 1, 10},
+    {"CPU ",   "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8 \"%\"}'", 2,  0},
+    {"TEMP ",  "sensors | awk '/Package id 0:/ {print $4}'",           5,  0},
+    {"MEM ",   "free -h --giga | awk '/Mem:/ {print $3 \"/\" $2}'",    5,  0},
+    {"IP ",   "ip -4 addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f1", 10, 0},
+    {"",       "date '+%a %b %d, %Y %H:%M'",                           30, 0},
 };
 
-//sets delimiter between status commands. NULL character ('\0') means no delimiter.
 static char delim[] = " | ";
 static unsigned int delimLen = 5;
+

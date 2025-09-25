@@ -34,7 +34,7 @@ void setupsignals();
 void sighandler(int signum);
 int getstatus(char *str, char *last);
 void statusloop();
-void termhandler();
+void termhandler(int);
 void pstdout();
 #ifndef NO_X
 void setroot();
@@ -80,7 +80,6 @@ void getcmd(const Block *block, char *output)
 	strcpy(output, tempstatus);
 	pclose(cmdf);
 }
-
 void getcmds(int time)
 {
 	const Block* current;
@@ -185,7 +184,7 @@ void sighandler(int signum)
 	writestatus();
 }
 
-void termhandler()
+void termhandler(int sig)
 {
 	statusContinue = 0;
 }
